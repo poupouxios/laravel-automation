@@ -1,0 +1,37 @@
+version: "2"
+services:
+  storage-laravel-automation:
+    image: alpine:latest
+    volumes:
+      - ./setup.sh:/setup.sh
+      - ./../public:/var/www
+    command: /bin/true
+
+  laravel-automation-database-data:
+    image: alpine:latest
+    volumes:
+      - ./../db/laravel_automation_dump.sql:/tmp/laravel_automation_dump.sql
+      - ./../docker/database-import.sh:/tmp/database-import.sh
+      - ./../db/data:/var/lib/mysql
+    command: /bin/true
+
+  laravel-automation-db:
+    image: mysql:5.7
+    container_name: laravel-automation.db
+    volumes_from:
+      - laravel-automation-database-data
+    links:
+      - laravel-automation-database-data
+    environment:
+      MYSQL_USER: "laraveluser"
+      MYSQL_PASSWORD: "test1234!"
+      MYSQL_DATABASE: "laraveldb"
+      MYSQL_ROOT_PASSWORD: "test1234!"
+
+  automation-laravel:
+   image: poupou/alpine-nginx-php7fpm:latest
+   container_name: laravel-automation.dev
+   volumes_from:
+     - storage-laravel-automation
+   links:
+      - laravel-automation-db
