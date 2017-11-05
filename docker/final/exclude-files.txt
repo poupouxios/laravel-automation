@@ -8,7 +8,6 @@ phpunit.xml
 *.sql
 *.sql.gz
 *.zip
-vendor
 tests
 storage
 gulpfile.js
