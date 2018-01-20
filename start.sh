@@ -1,18 +1,20 @@
 #!/bin/bash
-
-database_docker_image="laravel-automation.db";
-docker_hub_naming="poupou/laravel-automation";
+project_name="laravel-project";
+database_dump_filename="laravel_automation_dump.sql"
+database_username="laraveluser"
+database_password="test1234!"
+database_root_password=""
+database_name="laraveldb"
+docker_hub_naming="poupou/$project_name";
 public_directory="public";
 database_directory="db";
-app_container_name="laravel.dev"
-project_name="laravel-project";
 
 #Prepare the docker to push it to your docker hub
 build_docker_image (){
   cd public
   tar -czvf ../docker/final/final.tar.gz -X "../docker/final/exclude-files.txt" ./
 
-  cd docker
+  cd ../docker
 
   DOCKER_IMG=$docker_hub_naming
   GIT_SHA=`git rev-parse HEAD`
@@ -63,10 +65,25 @@ setup_laravel_project (){
 		rm -rf $project_name
     mv $public_directory/.env.example $public_directory/.env
 
-		cd docker
+    #create docker compose file based on top variables
+    create_docker_compose_file;
 
+		cd docker
 		docker-compose -f docker-compose.yml build;
   fi
+}
+
+create_docker_compose_file (){
+ dockercomposesample=$(<./docker/docker-compose.sample.yml);
+ variables=$(( set -o posix ; set ) | sort);
+ dockercompose=${dockercomposesample//##project_name##/$project_name};
+ dockercompose=${dockercompose//##database_dump_filename##/$database_dump_filename};
+ dockercompose=${dockercompose//##database_username##/$database_username};
+ dockercompose=${dockercompose//##database_password##/$database_password};
+ dockercompose=${dockercompose//##database_root_password##/$database_root_password};
+ dockercompose=${dockercompose//##database_name##/$database_name};
+ echo "$dockercompose" >> ./docker/docker-compose.yml;
+ echo "File docker-compose.yml created.";
 }
 
 start_app (){
@@ -76,21 +93,30 @@ start_app (){
 
 import_database_data (){
   echo "Importing data..";
-  docker exec $database_docker_image bash /tmp/database-import.sh;
+  docker exec $project_name.db bash /tmp/database-import.sh;
 }
 
-echo "1. Build project"
-echo "2. Start app"
-echo "3. Import database data"
-echo "4. Build production docker image"
-echo "5. Push  image to docker hub"
-read -p "Select option to begin: " option
+select_menu (){
+  echo "------------------------";
+  echo "1. Build project";
+  echo "2. Start app";
+  echo "3. Import database data";
+  echo "4. Build production docker image";
+  echo "5. Push  image to docker hub";
+  echo "6. Exit";
+  read -p "Select option to begin: " option;
+}
 
-case $option in
-  [1]* ) setup_laravel_project; break;;
-  [2]* ) start_app; break;;
-  [3]* ) import_database_data; break;;
-  [4]* ) build_docker_image; break;;
-  [5]* ) docker push "$docker_hub_naming"; date; break;;
-     * ) echo "Please select a valid option from above";;
-esac
+while [ "$option" != "6" ]
+do
+  select_menu;
+  case $option in
+    1) setup_laravel_project;;
+    2) start_app;;
+    3) import_database_data;;
+    4) build_docker_image;;
+    5) docker push "$docker_hub_naming"; date;;
+    6) exit;;
+    *) echo "Please select a valid option from above";;
+  esac
+done

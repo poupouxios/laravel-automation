@@ -1,0 +1,37 @@
+version: "2"
+services:
+  storage-##project_name##:
+    image: alpine:latest
+    volumes:
+      - ./setup.sh:/setup.sh
+      - ./../public:/var/www
+    command: /bin/true
+
+  ##project_name##-database-data:
+    image: alpine:latest
+    volumes:
+      - ./../db/##database_dump_filename##:/tmp/##database_dump_filename##
+      - ./../docker/database-import.sh:/tmp/database-import.sh
+      - ./../db/data:/var/lib/mysql
+    command: /bin/true
+
+  ##project_name##-db:
+    image: mysql:5.7
+    container_name: ##project_name##.db
+    volumes_from:
+      - ##project_name##-database-data
+    links:
+      - ##project_name##-database-data
+    environment:
+      MYSQL_USER: "##database_username##"
+      MYSQL_PASSWORD: "##database_password##"
+      MYSQL_DATABASE: "##database_name##"
+      MYSQL_ROOT_PASSWORD: "##database_root_password##"
+
+  automation-laravel:
+   image: poupou/alpine-nginx-php7fpm:latest
+   container_name: ##project_name##.dev
+   volumes_from:
+     - storage-##project_name##
+   links:
+      - ##project_name##-db
