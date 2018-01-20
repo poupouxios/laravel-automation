@@ -16,7 +16,7 @@ The end goal of this project is to containerize my applications and deploy them 
 The project needs to have some essential components to start. Keep in mind this project was tested on Ubuntu 17.04. The dependencies are:
 
 * [Docker](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04) (I always find useful the Digital Ocean installation tutorials)
-* [Docker Composer](https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-on-ubuntu-16-04)
+* [Docker Compose](https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-on-ubuntu-16-04)
 * [Composer](https://getcomposer.org/download/)
 
 ## Structure of the folders
