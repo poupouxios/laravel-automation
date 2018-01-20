@@ -22,12 +22,14 @@ The project needs to have some essential components to start. Keep in mind this 
 ## Structure of the folders
 
 The scripts will create the below structured folders:
+
 - `public` folder:  This will have the core structure of Laravel Project. If you have an existing Laravel project, you can replace all the files inside the public folder and it should work.
 - `db` folder: This will be an empty folder at the beginning. After you start the database docker container, it will map all the data that will add in database in a folder called data inside the db. This way you can copy the data folder and paste it in another database docker container and you map your /var/lib/mysql folder from inside the database docker container with the db/data folder outside. You can see this mapping inside the `docker-compose.yml` file at line 15.
 
 ### 1. Configuration variables
 
 In order to create your own project, there are some configuration variables that can be set. These variables exist inside the `start.sh` file and are:
+
 - `project_name`: This will be used to setup various configurations inside the final docker-compose YAML file along with the creation of project from the laravel command.
 - `database_dump_filename`: Specify the name of your database dump. Place it inside the db folder and this will be mapped inside the database docker container to import the data. The option 3 will do the import data.
 - `database_username`: The database username that the application uses to access database. It will be used to create the database and grant access to this user inside the database docker container.
