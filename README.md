@@ -18,6 +18,8 @@ The project needs to have some essential components to start. Keep in mind this 
 * [Docker](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04) (I always find useful the Digital Ocean installation tutorials)
 * [Docker Compose](https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-on-ubuntu-16-04)
 * [Composer](https://getcomposer.org/download/)
+* PHP 7
+* PHP 7 Zip extension
 
 ## Structure of the folders
 
