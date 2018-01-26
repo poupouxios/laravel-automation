@@ -18,8 +18,10 @@ The project needs to have some essential components to start. Keep in mind this 
 * [Docker](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04) (I always find useful the Digital Ocean installation tutorials)
 * [Docker Compose](https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-on-ubuntu-16-04)
 * [Composer](https://getcomposer.org/download/)
-* PHP 7
-* PHP 7 Zip extension
+* PHP 7 (Use for composer install)
+* PHP 7 Zip extension (Use for composer install)
+* PHP 7 mbstring extension (Use for composer install)
+* PHP 7 xml extension (Use for composer install)
 
 ## Structure of the folders
 
@@ -66,6 +68,8 @@ In order to create your own project, there are some configuration variables that
      1. Composer failed. One problem I had was that I was having php5.6 and Laravel needs php7 minimum.
      2. Laravel installer cannot be found. The reason is because it's the first time you setup Laravel installer, the OS didn't update the database of locate. Try run `sudo updatedb` before you run the script and then start again from step 1.
   3. If you want to execute an artisan command, **always** run it inside the docker container. To access your docker container execute the command `docker exec -i -t <project name variable value>.dev /bin/bash` eg. if your project_name is laravel-test the command will be `docker exec -i -t laravel-test.dev /bin/bash`
+  4. If you see any errors after the composer install finishes on step 1, such as `directory is not empty`, ignore them.
+  5. Make sure you specify the MYSQL_ROOT_PASSWORD as database docker container will complain with message `error: database is uninitialized and password option is not specified You need to specify one of MYSQL_ROOT_PASSWORD, MYSQL_ALLOW_EMPTY_PASSWORD and MYSQL_RANDOM_ROOT_PASSWORD`
 
 ## License
 
