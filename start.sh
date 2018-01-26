@@ -56,7 +56,7 @@ setup_laravel_project (){
   laravelexec="$(locate vendor/bin/laravel)";
 
   if [ -z "$laravelexec" ]; then
-    echo "laravel cannot be found. Maybe the composer failed?";
+    echo "laravel cannot be found. Maybe the composer failed or maybe cannot locate laravel?";
     exit;
   else
 		$laravelexec new $project_name

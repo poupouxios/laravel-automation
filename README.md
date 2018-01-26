@@ -51,7 +51,7 @@ In order to create your own project, there are some configuration variables that
       4. Build production docker image
       5. Push  image to docker hub
       Select option to begin:`
-  4. **(Check point 1 in Extra useful information below for existing project)** Select option 1 to build the project. This will start setting up the folder structure, install laravel script, create the project
+  4. **(Check point 1 in Extra useful information below for existing project)** Select option 1 to build the project. This will start setting up the folder structure, install Laravel installer, create the project
   5. After option 1 finishes, move to option 2. This will start the application.
   6. When the docker will start, somewhere at the end you should see a message like this:
     `Access your application through this ip: http://<ip-address>` eg. `Access your application through this ip: http://172.19.0.3`
@@ -60,7 +60,10 @@ In order to create your own project, there are some configuration variables that
 ## Extra useful information
 
   1. Assumed that you have already setup locally a Laravel project and you want to switch to this automatic way. Just get a MySql dump of your project, put it inside the `db` folder, set the correct variables inside `start.sh` and run option 1. After that, copy paste your code in the correct folders (inside `public` folder) and then select option 2 to start your application.
-  2. If you want to execute an artisan command, **always** run it inside the docker container. To access your docker container execute the command `docker exec -i -t <project name variable value>.dev /bin/bash` eg. if your project_name is laravel-test the command will be `docker exec -i -t laravel-test.dev /bin/bash`
+  2. If the script failed on step 1 and gives you the error `laravel cannot be found. Maybe the composer failed or maybe cannot locate laravel?`, there are 2 possibilities:
+     1. Composer failed. One problem I had was that I was having php5.6 and Laravel needs php7 minimum.
+     2. Laravel installer cannot be found. The reason is because it's the first time you setup Laravel installer, the OS didn't update the database of locate. Try run `sudo updatedb` before you run the script and then start again from step 1.
+  3. If you want to execute an artisan command, **always** run it inside the docker container. To access your docker container execute the command `docker exec -i -t <project name variable value>.dev /bin/bash` eg. if your project_name is laravel-test the command will be `docker exec -i -t laravel-test.dev /bin/bash`
 
 ## License
 
