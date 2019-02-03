@@ -44,33 +44,33 @@ setup_laravel_project (){
      mkdir $public_directory
   fi
 
-  echo "Getting laravel installer from Composer..";
-  composer global require "laravel/installer"
+  #creating docker-compose file
+  create_docker_compose_file;
 
-  echo "Creating project $project_name";
-  if [ -d "$project_name" ]; then
-     echo "Removing $project_name folder..";
-     rm -rf $project_name
-  fi
+  cd docker/initial-setup
 
-  laravelexec="$(locate vendor/bin/laravel)";
+  #creating a .env to give a uniqueness for each project and not interfere with other docker containers
+  echo "COMPOSE_PROJECT_NAME=$project_name-setup" > .env;
 
-  if [ -z "$laravelexec" ]; then
-    echo "laravel cannot be found. Maybe the composer failed or maybe cannot locate laravel?";
-    exit;
-  else
-		$laravelexec new $project_name
+  #building the project
 
-		mv $project_name/{.,}* $public_directory/
-		rm -rf $project_name
-    mv $public_directory/.env.example $public_directory/.env
+  #making sure that the container is not running
+  docker-compose -f docker-compose.yml down;
 
-    #create docker compose file based on top variables
-    create_docker_compose_file;
+  #building the container to retrieve the image if not installed
+  docker-compose -f docker-compose.yml build;
 
-		cd docker
-		docker-compose -f docker-compose.yml build;
-  fi
+  #start docker in order to be able to run the setup script
+  docker-compose -f docker-compose.yml up -d;
+
+  #now that the docker started, run the setup.sh script
+  docker exec -t setup-project.dev /setup.sh;
+
+  #here we hope that everything went ok and we shutdown the container
+  docker-compose -f docker-compose.yml down;
+
+  cd ../
+  docker-compose -f docker-compose.yml build;
 }
 
 create_docker_compose_file (){

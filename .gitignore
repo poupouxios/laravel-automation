@@ -2,3 +2,5 @@ public/*
 db/*
 docker/docker-compose.yml
 *gz
+.idea
+docker/initial-setup/.env

@@ -1,0 +1,13 @@
+version: "2"
+services:
+  storage-project-7.2:
+    image: alpine:latest
+    volumes:
+      - ./setup.sh:/setup.sh
+      - ./../../public:/var/www
+
+  automation-setup:
+   image: poupou/alpine-nginx-php7.2fpm:latest
+   container_name: setup-project.dev
+   volumes_from:
+     - storage-project-7.2
