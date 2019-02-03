@@ -29,7 +29,7 @@ services:
       MYSQL_ROOT_PASSWORD: "##database_root_password##"
 
   automation-laravel:
-   image: poupou/alpine-nginx-php7fpm:latest
+   image: poupou/alpine-nginx-php7.2fpm:latest
    container_name: ##project_name##.dev
    volumes_from:
      - storage-##project_name##
