@@ -17,11 +17,6 @@ The project needs to have some essential components to start. Keep in mind this 
 
 * [Docker](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04) (I always find useful the Digital Ocean installation tutorials)
 * [Docker Compose](https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-on-ubuntu-16-04)
-* [Composer](https://getcomposer.org/download/)
-* PHP 7 (Use for composer install)
-* PHP 7 Zip extension (Use for composer install)
-* PHP 7 mbstring extension (Use for composer install)
-* PHP 7 xml extension (Use for composer install)
 
 ## Structure of the folders
 
@@ -49,13 +44,13 @@ In order to create your own project, there are some configuration variables that
   1. First, make sure that you set your correct variables inside the `start.sh` file.
   2. Run `sh start.sh`
   3. This will bring a menu which will look like this:
-     1. Build project
+      1. Build project
       2. Start app
       3. Import database data
       4. Build production docker image
       5. Push  image to docker hub
       Select option to begin:`
-  4. **(Check point 1 in Extra useful information below for existing project)** Select option 1 to build the project. This will start setting up the folder structure, install Laravel installer, create the project
+  4. **(Check point 1 in Extra useful information below for existing project)** Select option 1 to build the project. This will start setting up the folder structure, install Laravel installer, create the project everything inside the docker.
   5. After option 1 finishes, move to option 2. This will start the application.
   6. When the docker will start, somewhere at the end you should see a message like this:
     `Access your application through this ip: http://<ip-address>` eg. `Access your application through this ip: http://172.19.0.3`
@@ -65,7 +60,7 @@ In order to create your own project, there are some configuration variables that
 
   1. Assumed that you have already setup locally a Laravel project and you want to switch to this automatic way. Just get a MySql dump of your project, put it inside the `db` folder, set the correct variables inside `start.sh` and run option 1. After that, copy paste your code in the correct folders (inside `public` folder) and then select option 2 to start your application.
   2. If the script failed on step 1 and gives you the error `laravel cannot be found. Maybe the composer failed or maybe cannot locate laravel?`, there are 2 possibilities:
-     1. Composer failed. One problem I had was that I was having php5.6 and Laravel needs php7 minimum.
+     1. Composer failed. Try and restart the process as sometimes might not be able to pull some packages.
      2. Laravel installer cannot be found. The reason is because it's the first time you setup Laravel installer, the OS didn't update the database of locate. Try run `sudo updatedb` before you run the script and then start again from step 1.
   3. If you want to execute an artisan command, **always** run it inside the docker container. To access your docker container execute the command `docker exec -i -t <project name variable value>.dev /bin/bash` eg. if your project_name is laravel-test the command will be `docker exec -i -t laravel-test.dev /bin/bash`
   4. If you see any errors after the composer install finishes on step 1, such as `directory is not empty`, ignore them.
