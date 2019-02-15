@@ -67,6 +67,15 @@ setup_laravel_project (){
   docker exec -t setup-project.dev /setup.sh;
 
   #here we hope that everything went ok and we shutdown the container
+  docker-compose -f docker-compose.yml stop;
+
+  #start docker in order to be able to run the setup script
+  docker-compose -f docker-compose.yml up -d;
+
+  #we re-run docker to setup now the Laravel project
+  docker exec -t setup-project.dev sh -c '/setup.sh install';
+
+  #here we hope that everything went ok and we shutdown the container
   docker-compose -f docker-compose.yml down;
 
   cd ../
