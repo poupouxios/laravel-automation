@@ -98,7 +98,8 @@ create_docker_compose_file (){
 start_app (){
   echo "Loading dockers..";
   echo "COMPOSE_PROJECT_NAME=$project_name" > ./docker/.env;
-  docker-compose -f docker/docker-compose.yml up;
+  cd docker
+  docker-compose -f docker-compose.yml up;
 }
 
 import_database_data (){
