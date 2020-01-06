@@ -1,4 +1,4 @@
-FROM poupou/alpine-nginx-php7.2fpm:latest
+FROM poupou/alpine-nginx-php7.3fpm:latest
 
 MAINTAINER Valentinos Papasavvas
 
